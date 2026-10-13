@@ -13,8 +13,10 @@
 
   <main>
     <section id="table-panel">
-      <h2>Transition table</h2>
-      <!-- Step 2: editable table -->
+      <h2>Transition table <span id="kind-badge" class="badge"></span></h2>
+      <div id="table-container"></div>
+      <p class="hint">Type a target state in a cell and press <kbd>Tab</kbd> to add it.
+        Add more for an NFA. <kbd>Backspace</kbd> on an empty cell removes the last one.</p>
     </section>
 
     <section id="graph-panel">
@@ -29,6 +31,7 @@
   </main>
 
   <script src="automaton.js"></script>
+  <script src="table.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
