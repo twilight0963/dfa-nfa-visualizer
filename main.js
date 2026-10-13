@@ -1,4 +1,4 @@
-// Wires the table, graph and run panels together (run comes in step 4).
+// Wires the table, graph and run panels together.
 
 const badge = document.getElementById("kind-badge");
 const staleNote = document.getElementById("stale-note");
@@ -43,10 +43,14 @@ function build() {
     graphBox.replaceChildren();
     graph = Graph.create(graphBox);
   }
-  graph.draw(m);
+  // Runs use this snapshot, so later table edits can't desync them from the drawing.
+  const built = structuredClone(m);
+  graph.draw(built);
+  run.setMachine(built, graph);
   staleNote.hidden = true;
 }
 
+const run = Run.create();
 const table = Table.create(document.getElementById("table-container"), onTableChange);
 updateBadge(table.machine);
 document.getElementById("build-btn").addEventListener("click", build);

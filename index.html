@@ -31,7 +31,21 @@
 
     <section id="run-panel">
       <h2>Run</h2>
-      <!-- Step 4: input + animation controls -->
+      <div class="run-controls">
+        <input id="input-str" class="input-str" placeholder="Input string, e.g. abba"
+               spellcheck="false" autocomplete="off" aria-label="Input string">
+        <button id="back-btn" type="button">◀ Back</button>
+        <button id="step-btn" type="button">Step ▶</button>
+        <button id="play-btn" type="button" class="primary">Play</button>
+        <button id="reset-btn" type="button">Reset</button>
+        <label class="speed">Speed
+          <input id="speed" type="range" min="400" max="2200" step="100" value="1400">
+        </label>
+      </div>
+      <ul id="run-errors" class="errors" hidden></ul>
+      <div id="tape" class="tape" aria-label="Input tape"></div>
+      <p id="run-status" class="run-status" aria-live="polite"></p>
+      <div id="verdict" class="verdict" hidden></div>
     </section>
   </main>
 
@@ -41,6 +55,7 @@
   <script src="automaton.js"></script>
   <script src="table.js"></script>
   <script src="graph.js"></script>
+  <script src="run.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

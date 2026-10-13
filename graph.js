@@ -16,6 +16,8 @@ const Graph = (() => {
       "border-color": "#1d1d24",
       "font-size": 14,
       "color": "#1d1d24",
+      "transition-property": "background-color, border-color, color",
+      "transition-duration": 0.25,
     } },
     { selector: "node.accepting", style: {
       "border-style": "double",
@@ -40,9 +42,31 @@ const Graph = (() => {
       "text-background-padding": 2,
       "loop-direction": "-45deg",
       "loop-sweep": "-60deg",
+      "transition-property": "line-color, target-arrow-color, width",
+      "transition-duration": 0.25,
     } },
     { selector: "edge.start-arrow", style: { "label": "" } },
+
+    // Run trail: visited (faded) < taken / active (now) < final verdict.
+    { selector: "node.visited", style: { "background-color": "#dbe5fd", "border-color": "#7d9cf5" } },
+    { selector: "edge.visited", style: {
+      "line-color": "#9db4fa", "target-arrow-color": "#9db4fa", "width": 2.5,
+    } },
+    { selector: "edge.taken", style: {
+      "line-color": "#3b6ef5", "target-arrow-color": "#3b6ef5", "width": 4,
+    } },
+    { selector: "node.active", style: {
+      "background-color": "#3b6ef5", "border-color": "#1f3fa8", "color": "#ffffff",
+    } },
+    { selector: "node.final-accept", style: {
+      "background-color": "#1f9d55", "border-color": "#146c3a", "color": "#ffffff",
+    } },
+    { selector: "node.final-reject", style: {
+      "background-color": "#d64545", "border-color": "#9b2c2c", "color": "#ffffff",
+    } },
   ];
+
+  const RUN_CLASSES = "visited taken active final-accept final-reject";
 
   function create(container) {
     const cy = cytoscape({ container, style, wheelSensitivity: 0.2, maxZoom: 1.6 });
@@ -112,7 +136,39 @@ const Graph = (() => {
     const node = (state) => cy.getElementById(nodeIds.get(state));
     const edge = (from, to) => cy.getElementById(edgeIds.get(`${nodeIds.get(from)}>${nodeIds.get(to)}`));
 
-    return { draw, node, edge, cy };
+    function clearRun() {
+      cy.elements().removeClass(RUN_CLASSES);
+    }
+
+    // Shows step k of a simulate() trace: everything up to k is the faded trail,
+    // step k's edges and states are highlighted. When `finished`, the final states
+    // turn green/red (for a dead run, the states it got stuck in).
+    function showStep(m, steps, k, finished) {
+      clearRun();
+      for (let i = 0; i <= k; i++) {
+        for (const s of steps[i].active) node(s).addClass("visited");
+        for (const [from, , to] of steps[i].edges) edge(from, to).addClass("visited");
+      }
+      const current = steps[k];
+      if (k === 0) cy.getElementById("start-edge").addClass("taken");
+      for (const [from, , to] of current.edges) edge(from, to).addClass("taken");
+
+      for (const s of current.active) pulse(node(s).addClass("active"));
+      if (finished) {
+        const ends = current.active.length ? current.active : steps[k - 1].active;
+        for (const s of ends) {
+          node(s).addClass(current.active.length && m.accepting.includes(s) ? "final-accept" : "final-reject");
+        }
+      }
+    }
+
+    function pulse(n) {
+      n.stop(true, true)
+        .animate({ style: { width: 58, height: 58 } }, { duration: 150 })
+        .animate({ style: { width: 46, height: 46 } }, { duration: 200 });
+    }
+
+    return { draw, clearRun, showStep };
   }
 
   return { create };
