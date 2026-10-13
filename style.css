@@ -166,3 +166,50 @@ kbd {
   font-size: 0.75rem;
   background: var(--bg);
 }
+
+/* ---- machine panel ---- */
+
+#graph-panel { display: flex; flex-direction: column; }
+
+.panel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.panel-head h2 { margin: 0; }
+.panel-head .hint { margin: 0; color: #b7791f; }
+.panel-head .primary { margin-left: auto; }
+
+.primary {
+  font: inherit;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.primary:hover { filter: brightness(1.1); }
+
+.errors {
+  margin: 0 0 12px;
+  padding: 8px 12px 8px 28px;
+  border-radius: 6px;
+  background: #fde8e8;
+  color: var(--reject);
+  font-size: 0.85rem;
+}
+
+#graph {
+  flex: 1;
+  min-height: 380px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

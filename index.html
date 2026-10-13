@@ -20,8 +20,13 @@
     </section>
 
     <section id="graph-panel">
-      <h2>Machine</h2>
-      <!-- Step 3: Cytoscape graph -->
+      <div class="panel-head">
+        <h2>Machine</h2>
+        <span id="stale-note" class="hint" hidden>Table changed. Build again to update.</span>
+        <button id="build-btn" type="button" class="primary">Build</button>
+      </div>
+      <ul id="errors" class="errors" hidden></ul>
+      <div id="graph"><p class="placeholder">Fill in the table and press Build.</p></div>
     </section>
 
     <section id="run-panel">
@@ -30,8 +35,12 @@
     </section>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.3/cytoscape.min.js"
+          integrity="sha512-SQebVa91Tn1DeP45Wo74monK/I9wiQg59uKc7P8vp3T7KQ9l5e8IMjZ1GJTgZehUVQt7eS61DTqldQUb1EHfnw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="automaton.js"></script>
   <script src="table.js"></script>
+  <script src="graph.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
