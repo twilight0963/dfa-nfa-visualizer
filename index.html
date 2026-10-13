@@ -49,9 +49,11 @@
     </section>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.3/cytoscape.min.js"
-          integrity="sha512-SQebVa91Tn1DeP45Wo74monK/I9wiQg59uKc7P8vp3T7KQ9l5e8IMjZ1GJTgZehUVQt7eS61DTqldQUb1EHfnw=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Local copy (gitignored) for offline use; falls back to the CDN if it's missing. -->
+  <script src="cytoscape.min.js"></script>
+  <script>
+    window.cytoscape || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.3/cytoscape.min.js" integrity="sha512-SQebVa91Tn1DeP45Wo74monK/I9wiQg59uKc7P8vp3T7KQ9l5e8IMjZ1GJTgZehUVQt7eS61DTqldQUb1EHfnw==" crossorigin="anonymous"><\/script>');
+  </script>
   <script src="automaton.js"></script>
   <script src="table.js"></script>
   <script src="graph.js"></script>
